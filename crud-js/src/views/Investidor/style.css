@@ -27,3 +27,17 @@ tr:hover{
 .sumir{
     display: none;
 }
+label{
+    font-weight: bold;
+}
+.text-end{
+    justify-content: end;
+    font-weight: bold;
+}
+.text-end .col-2 input{
+    font-weight: bold;
+}
+.center{
+    display: flex;
+    justify-content: center;
+}

@@ -5,3 +5,7 @@
 ```
 { new Intl.DateTimeFormat('pt-BR').format( new Date(transaction.createdAt) )}
 ```
+
+### Dependências
+
+npm i react-countup
