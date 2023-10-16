@@ -13,12 +13,14 @@ export function Users() {
     const [save, setSave] = useState('Salvar');
     const [editar, setEditar] = useState('');
 
+    /** Metodo Carregar dados  */
     useEffect( () => {
         axios.get('http://localhost:3001/users?_start=0&_limit=5')
           .then(response => setData(response.data));
     }, [data]);
 
-    const Salvar = (e) => {
+    /** Metodo Inser  */
+    const Inserir = (e) => {
         e.preventDefault()
 
         axios.post("http://localhost:3001/users", {
@@ -37,6 +39,7 @@ export function Users() {
     
     }
 
+    /** Metodo Remover  */
     const Remover =(id) => {
         const res = window.confirm('Deseja realmente excluir?')
         if(res === true){
@@ -45,22 +48,18 @@ export function Users() {
         }
     }
 
+    /** Metodo Carregar campos para editar  */
     const CarregaCampos = (nome, email, senha, id) => {
-        // console.log(nome, email, senha, id)
-
         setSave(null)
         setEditar('Alterar')
 
         setNome(nome), setEmail(email), setSenha(senha), setId(id)
-
     }
 
+    /** Metodo Alterar  */
     function Alterar(e){
         e.preventDefault()
 
-        console.log(nome, email, senha, id)
-
-        /***  */
         axios.put(`http://localhost:3001/users/${id}`, {
             nome,
             email,
@@ -68,7 +67,7 @@ export function Users() {
         })
         .then( () => {
                 alert(nome + " Atualizado com sucesso");
-                setSave('Salvar');
+                setSave('Inserir');
                 setEditar(null)
                 setNome(''), setEmail(''), setSenha(''), setId('');
             }
@@ -78,6 +77,7 @@ export function Users() {
         })
     }
 
+    /** View */
     return(
         <div className="container">
             <h1 className="mt-5 mb-3">Controle de Usuários</h1>
@@ -98,7 +98,7 @@ export function Users() {
                 </div>
                 <input type="hidden" value={id} name="id" onChange={ e => setId(e.target.value)} />
 
-                    <button className="btn btn-outline-primary" onClick={Salvar}>{save}</button>
+                    <button className="btn btn-outline-primary" onClick={Inserir}>{save}</button>
                     <button onClick={Alterar}>{editar}</button>
                 </form>
 
