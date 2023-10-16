@@ -1,0 +1,19 @@
+*{
+    border: none;
+}
+.fild-100{
+    width: 140px;
+    text-align: center;
+    border: none;
+}
+.fild-btn{
+    display: flex;
+    gap: 8px;
+}
+.fa-pen-to-square, .fa-trash-can{
+    font-size: 25px;
+    border: none;
+}
+.fa-pen-to-square:hover{
+    opacity: .5;
+}
