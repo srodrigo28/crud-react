@@ -3,19 +3,19 @@ import './style.css'
 import { useState, useEffect } from "react";
 
 export function Users() {
-
     const [ id, setId ]   = useState("")
     const [ nome, setNome ]   = useState("")
     const [ email, setEmail ] = useState("")
     const [ senha, setSenha ] = useState("")
     const [ data, setData] = useState([]);
+    const [ btnShow, setBtnShow] = useState();
 
     const [save, setSave] = useState('Salvar');
     const [editar, setEditar] = useState('');
 
     /** Metodo Carregar dados  */
     useEffect( () => {
-        axios.get('http://localhost:3001/users?_start=0&_limit=5')
+        axios.get('http://localhost:3001/users')
           .then(response => setData(response.data));
     }, [data]);
 
@@ -29,8 +29,10 @@ export function Users() {
             senha
         })
 
-        .then( () =>
-            alert(nome + " Cadastrado com sucesso")
+        .then( () => {
+                alert(nome + " Cadastrado com sucesso")
+                setNome(''), setEmail(''), setSenha('')
+            }
         )
 
         .catch( (error) => {
@@ -40,8 +42,8 @@ export function Users() {
     }
 
     /** Metodo Remover  */
-    const Remover =(id) => {
-        const res = window.confirm('Deseja realmente excluir?')
+    const Remover =(id, nome) => {
+        const res = window.confirm('Deseja realmente excluir? ' + nome)
         if(res === true){
             axios.delete(`http://localhost:3001/users/${id}`)
             return false
@@ -80,9 +82,9 @@ export function Users() {
     /** View */
     return(
         <div className="container">
-            <h1 className="mt-5 mb-3">Controle de Usuários</h1>
+            <h1 className="mt-4 mb-3">Controle de Usuários</h1>
             <form>
-                <div className="row mb-3">
+                <div className="row mb-2">
                         <div className="col">
                             <label>Nome</label>
                             <input type="text" className="form-control" value={nome} onChange={ e => setNome(e.target.value)} />
@@ -98,42 +100,42 @@ export function Users() {
                 </div>
                 <input type="hidden" value={id} name="id" onChange={ e => setId(e.target.value)} />
 
-                    <button className="btn btn-outline-primary" onClick={Inserir}>{save}</button>
-                    <button onClick={Alterar}>{editar}</button>
-                </form>
+                    <button className="btn btn-outline-primary " onClick={Inserir}>{save}</button>
+                    <button className="btn btn-outline-warning " onClick={Alterar}>{editar}</button>
+            </form>
 
-            <h1>Lista</h1>
-                <table className="table table-striped table-bordered">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Nome</th>
-                            <th>Email</th>
-                            <th>Senha</th>
-                            <th className="fild-100">Ações</th>
+            <h1 className="mt-4">Lista</h1>
+            <table className="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th className="fild-50">ID</th>
+                        <th>Nome</th>
+                        <th>Email</th>
+                        <th>Senha</th>
+                        <th className="fild-100">Ações</th>
+                    </tr>
+                </thead>
+            
+                <tbody>
+                    { data.map((item) => (
+                        <tr key={item.id}>
+                            <td className="fild-50">{item.id}</td>
+                            <td>{item.nome}</td>
+                            <td>{item.email}</td>
+                            <td>{item.senha}</td>
+                            <td className="fild-btn">
+                                <button onClick={ () => CarregaCampos(item.nome, item.email, item.senha, item.id) } className="btn btn-outline-warning">
+                                    <i className="fa-regular fa-pen-to-square"></i>
+                                </button>
+                                <button onClick={ () => Remover(item.id, item.nome) }  className="btn btn-outline-danger">
+                                    <i className="fa-regular fa-trash-can">
+                                </i></button>
+                            </td>
                         </tr>
-                    </thead>
-                
-                    <tbody>
-                        { data.map((item) => (
-                            <tr  key={item.id+1}>
-                                <td>{item.id}</td>
-                                <td>{item.nome}</td>
-                                <td>{item.email}</td>
-                                <td>{item.senha}</td>
-                                <td className="fild-btn">
-                                    <button onClick={ () => CarregaCampos(item.nome, item.email, item.senha, item.id) } className="btn btn-outline-warning">
-                                        <i className="fa-regular fa-pen-to-square"></i>
-                                    </button>
-                                    <button onClick={ () => Remover(item.id) }  className="btn btn-outline-danger">
-                                        <i className="fa-regular fa-trash-can">
-                                    </i></button>
-                                </td>
-                            </tr>
-                            ))
-                        }
-                    </tbody>
-                </table>
+                        ))
+                    }
+                </tbody>
+            </table>
         </div>
     )
 }

@@ -1,10 +1,14 @@
 *{
     border: none;
 }
-.fild-100{
-    width: 140px;
+.fild-50{
+    width: 50px;
     text-align: center;
-    border: none;
+    text-align: center;
+}
+.fild-100{
+    width: 128px;
+    text-align: center;
 }
 .fild-btn{
     display: flex;
@@ -16,4 +20,11 @@
 }
 .fa-pen-to-square:hover{
     opacity: .5;
+}
+tr:hover{
+    cursor: pointer;
+    background-color: blueviolet !important;
+}
+.sumir{
+    display: none;
 }

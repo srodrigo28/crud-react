@@ -7,18 +7,23 @@ axios.get(' url+ ? _start=0 & _limit=5 ')
 ```
 
 ### Rodar o projeto
-* Instalar as depedências após baixar do git
+* Após baixar do git Instalar as depedências
+```
+npm i
+```
+
 * abrir um terminal para api
 ```
 npm run api
 ```
+
 * abrir um terminal para frontend
 ```
 npm run dev
 ```
 
 ### No momento apenas completo:
-* Users ( yes )
+* Users ( yes ) ajustes finos
 
 * Login ( no )
 * Contas ( no )
@@ -27,6 +32,17 @@ npm run dev
 
 ### Recursos:
 * Navegação ( no )
-* Altenticação ( no )
+* Autenticação ( no )
 * PDF Relatório ( no )
 
+### Dependências
+
+* React Router Dom
+
+* Fontawesome
+
+* Bootstrap
+
+* Json-Server
+
+* Styled-Components
