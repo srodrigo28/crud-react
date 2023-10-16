@@ -1,11 +1,11 @@
 // import { Outlet } from "react-router-dom"
-import { Users } from './views/Users'
+import { Investidor } from './views/Investidor'
 
 export default function App() {
 
     return(
         <>
-            <Users />
+            <Investidor />
             {/* <Outlet /> */}
         </>
     )
