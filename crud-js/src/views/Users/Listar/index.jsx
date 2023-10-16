@@ -2,6 +2,8 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 
 export function Listar() {
+
+    const [ id, setId ]   = useState("")
     const [ nome, setNome ]   = useState("")
     const [ email, setEmail ] = useState("")
     const [ senha, setSenha ] = useState("")
@@ -9,6 +11,11 @@ export function Listar() {
 
     const [save, setSave] = useState('Salvar');
     const [editar, setEditar] = useState('');
+
+    useEffect( () => {
+        axios.get('http://localhost:3001/users')
+          .then(response => setData(response.data));
+    }, [data]);
 
     const Salvar = (e) => {
         e.preventDefault()
@@ -20,7 +27,7 @@ export function Listar() {
         })
 
         .then( () =>
-            alert("Cadastrado com sucesso")
+            alert(nome + " Cadastrado com sucesso")
         )
 
         .catch( (error) => {
@@ -28,14 +35,6 @@ export function Listar() {
         })
     
     }
-
-    const Carregar = () => {
-        useEffect( () => {
-            axios.get('http://localhost:3001/users')
-              .then(response => setData(response.data));
-        }, [data]);
-    }
-    Carregar()
 
     const Remover =(id) => {
         const res = window.confirm('Deseja realmente excluir?')
@@ -45,37 +44,37 @@ export function Listar() {
         }
     }
 
-    const Editar = (nome, email, senha, id) => {
+    const CarregaCampos = (nome, email, senha, id) => {
         // console.log(nome, email, senha, id)
 
         setSave(null)
         setEditar('Alterar')
 
-        setNome(nome), setEmail(email), setSenha(senha)
+        setNome(nome), setEmail(email), setSenha(senha), setId(id)
 
-       
+    }
 
-        /** 
-        
+    function Alterar(e){
+        e.preventDefault()
+
+        console.log(nome, email, senha, id)
+
+        /***  */
         axios.put(`http://localhost:3001/users/${id}`, {
             nome,
             email,
             senha
         })
-
-        .then( () =>
-            alert("Atualizado com sucesso")
+        .then( () => {
+                alert(nome + " Atualizado com sucesso");
+                setSave('Salvar');
+                setEditar(null)
+                setNome(''), setEmail(''), setSenha(''), setId('');
+            }
         )
-
         .catch( (error) => {
             console.log('erro: ' + error)
         })
-
-        */
-    }
-
-    function Altera(){
-        alert('Testando...')
     }
 
     return(
@@ -90,9 +89,11 @@ export function Listar() {
                 <label>Senha</label>
                 <input type="password" value={senha} onChange={ e => setSenha(e.target.value)} />
 
+                <input type="hidden" value={id} name="id" onChange={ e => setId(e.target.value)} />
+
                 
                 <button onClick={Salvar}>{save}</button>
-                <button onClick={Altera}>Editar</button>
+                <button onClick={Alterar}>{editar}</button>
             </form>
 
             <h1>Lista</h1>
@@ -115,7 +116,7 @@ export function Listar() {
                                 <td>{item.email}</td>
                                 <td>{item.senha}</td>
                                 <td>
-                                    <button onClick={ () => Editar(item.nome, item.email, item.senha, item.id) }>Editar</button>
+                                    <button onClick={ () => CarregaCampos(item.nome, item.email, item.senha, item.id) }>Editar</button>
                                     <button onClick={ () => Remover(item.id) } >Excluir</button>
                                 </td>
                             </tr>
