@@ -110,46 +110,18 @@
   ],
   "investidor": [
     {
-      "nome": "Teste",
-      "dataInvest": "2023-10-17",
-      "percentual": "0.8",
-      "valor": 5000,
-      "id": 5
-    },
-    {
-      "nome": "Danillo",
+      "nome": "Danillo 2",
       "dataInvest": "2022-10-10",
-      "percentual": "1",
-      "valor": 10000,
-      "id": 6
-    },
-    {
-      "nome": "Aline Silva",
-      "dataInvest": "2022-02-20",
-      "percentual": 10,
-      "valor": 70000,
-      "id": 7
-    },
-    {
-      "nome": "Bruno Oliveira",
-      "dataInvest": "2022-02-20",
       "percentual": "10",
-      "valor": "1000",
-      "id": 8
+      "valor": "10000",
+      "id": 2
     },
     {
-      "nome": "Wanessa",
-      "dataInvest": "2022-11-02",
-      "percentual": "5",
-      "valor": "20000",
-      "id": 9
-    },
-    {
-      "nome": "Iraldo",
-      "dataInvest": "2023-06-06",
-      "percentual": "4",
-      "valor": "5000",
-      "id": 10
+      "nome": "Cliente 3",
+      "dataInvest": "2023-10-10",
+      "percentual": "2",
+      "valor": "10000",
+      "id": 4
     }
   ]
 }

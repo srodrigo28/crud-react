@@ -1,5 +1,5 @@
-import axios from "axios";
 import './style.css'
+import axios from "axios";
 import { useState, useEffect } from "react";
 import CountUp from 'react-countup';
 
@@ -16,53 +16,52 @@ export function Investidor() {
     const [ classBtnInserir, setClassBtnInserir] = useState('');
     const [ classBtnAlterar, setClassBtnAlterar] = useState('sumir');
 
-    const amount = 500000;
+    const [total, setTotal] = useState();
+    
+    /*** Calculando Total Mês */
+    useEffect(() => {
+        const newTotal = data.reduce((a, b) => a + parseFloat(b.valor), 0);
+        setTotal(newTotal);
+    }, [data, total]);
+    
+    console.log("Reduce total fora: " + total)
+      /********************************
 
-    // const total2 = data.map((acc, item) => {
-    //     return acc + item;
-    // });
+         // 👇️ filter with 1 condition
+         const filtered = data.filter(item => {
+           return item.valor === '1000';
+        });
+        console.log(filtered)
 
-    // const numeros = [10, 20, 30, 40, 50];
+        // 👇️ filter with 1 condition
+        const filtered1 = data.filter(item => {
+            return item.nome === 'Danillo';
+        });
+        console.log(filtered1)
 
+        // 👇️ filter with 1 condition
+        const filtered2 = data.filter( item => {
+            return item.valor > 1;
+        });
+        console.log(filtered2,)
 
-
-    // console.log(total2)
-
-    /** Metodo Carregar dados
-    useEffect( () => {
-        axios.get(url)
-        .then( response => setData(response.data) );
-    }, [data]);
+        // 👇️ filter with 1 condition
+        const filtered3 = data.filter( item => {
+            return item.valor > 1;
+           
+        });
+        console.log(filtered3,)
     */
 
     useEffect( () => {
         axios.get(url)
-        .then( response => { 
-            setData(response.data)
-            console.log(response.data[1]['nome'])
-            console.log(response.data[1]['valor'])
-
-            // const dobro = data.map(( item ) => item.valor * 2);
-            // console.log(dobro)
-        });
-    }, []);
-
-    /** Metodo Calcular dados   */
-        // const total = useMemo( () => {
-        //     let total = 0;
-
-
-        //     console.log(total)
-
-
-        // },[]) 
-        // console.log(total);
-
-    /** Metodo Inser  */
+        .then( response => setData(response.data) );
+    }, [data]);
+   
     const Inserir = (e) => {
         e.preventDefault()
 
-        axios.post(url, {
+        axios.post("http://localhost:3001/investidor/", {
             nome,
             dataInvest,
             percentual,
@@ -82,7 +81,7 @@ export function Investidor() {
     const Remover =(id, nome) => {
         const res = window.confirm('Deseja realmente excluir? ' + nome)
         if(res === true){
-            axios.delete(`${url}/${id}`)
+            axios.delete(`http://localhost:3001/investidor//${id}`)
             return false
         }
     }
@@ -99,7 +98,7 @@ export function Investidor() {
     function Alterar(e){
         e.preventDefault()
 
-        axios.put(`${url}/${id}`, {
+        axios.put(`http://localhost:3001/investidor/${id}`, {
             nome,
             dataInvest,
             percentual,
@@ -122,18 +121,6 @@ export function Investidor() {
     /** View */
     return(
         <div className="container pt-3">
-            
-            <div className="alert alert-primary mt-3" > <b>Caixa Atual :</b> 
-                <CountUp className="btn btn-primary"
-                    end={amount}
-                    duration={3.0}
-                    prefix="R$ "
-                    separator="."
-                    decimal=","
-                    decimals={2}
-                />
-            </div>
-
             <h1 className="mt-5 mb-5">Controle de Investidores</h1>
             <form className="mb-5">
                 <div className="row mb-2">
@@ -230,10 +217,14 @@ export function Investidor() {
             </table>
             <div className="row text-end">
                 <div className="col-2">
-                    <input  
-                            type="text" 
-                            className="form-control text-center" disabled placeholder="R$ 170.500,00"
-                    />
+                <strong>Total: </strong><CountUp className='btn btn-primary'
+                    end={total}
+                    duration={3.0}
+                    prefix="R$ "
+                    separator="."
+                    decimal=","
+                    decimals={2}
+                />
                 </div>
             </div>
             <nav className="">
