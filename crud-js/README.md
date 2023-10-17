@@ -9,3 +9,5 @@
 ### Dependências
 
 npm i react-countup
+
+npm install --save react-to-pdf

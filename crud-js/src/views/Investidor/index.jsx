@@ -1,7 +1,10 @@
 import './style.css'
-import axios from "axios";
 import { useState, useEffect } from "react";
+
+import axios from "axios";
 import CountUp from 'react-countup';
+// https://www.npmjs.com/package/react-to-pdf
+import { usePDF } from 'react-to-pdf';
 
 export function Investidor() {
     const url = "http://localhost:3001/investidor";
@@ -17,6 +20,8 @@ export function Investidor() {
     const [ classBtnAlterar, setClassBtnAlterar] = useState('sumir');
 
     const [total, setTotal] = useState();
+
+    const { toPDF, targetRef } = usePDF({filename: 'page.pdf'});
     
     /*** Calculando Total Mês */
     useEffect(() => {
@@ -121,6 +126,11 @@ export function Investidor() {
     /** View */
     return(
         <div className="container pt-3">
+        
+            
+                <button onClick={ () => toPDF() }>Download PDF</button>
+
+            
             <h1 className="mt-5 mb-5">Controle de Investidores</h1>
             <form className="mb-5">
                 <div className="row mb-2">
@@ -162,6 +172,8 @@ export function Investidor() {
                     <p> {  } </p>
             </form>
 
+            <div ref={targetRef}>
+            <h1 className='text-center mb-5'>Listagem</h1>
             <table className="table table-striped table-bordered">
                 <thead>
                     <tr>
@@ -226,6 +238,7 @@ export function Investidor() {
                     decimals={2}
                 />
                 </div>
+            </div>
             </div>
             <nav className="">
                 <ul className="pagination justify-content-center">
