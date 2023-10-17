@@ -117,11 +117,46 @@
       "id": 2
     },
     {
-      "nome": "Cliente 3",
+      "nome": "Wanessa",
       "dataInvest": "2023-10-10",
       "percentual": "2",
-      "valor": "10000",
+      "valor": "50000",
       "id": 4
+    },
+    {
+      "nome": "Sisa",
+      "dataInvest": "2023-10-20",
+      "percentual": "5",
+      "valor": "70000",
+      "id": 5
+    },
+    {
+      "nome": "Marcelino",
+      "dataInvest": "2022-10-20",
+      "percentual": "10",
+      "valor": "50000",
+      "id": 6
+    },
+    {
+      "nome": "Lucas",
+      "dataInvest": "2022-10-20",
+      "percentual": "3",
+      "valor": "70000",
+      "id": 7
+    },
+    {
+      "nome": "Aline Sousa",
+      "dataInvest": "2023-10-10",
+      "percentual": "5",
+      "valor": "10000",
+      "id": 8
+    },
+    {
+      "nome": "Roberto Oliveira",
+      "dataInvest": "2022-02-02",
+      "percentual": "5",
+      "valor": "10000",
+      "id": 9
     }
   ]
 }

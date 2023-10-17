@@ -1,10 +1,12 @@
 import './style.css'
 import { useState, useEffect } from "react";
+import ApexCharts from 'apexcharts'
 
 import axios from "axios";
 import CountUp from 'react-countup';
-// https://www.npmjs.com/package/react-to-pdf
 import { usePDF } from 'react-to-pdf';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export function Investidor() {
     const url = "http://localhost:3001/investidor";
@@ -22,6 +24,12 @@ export function Investidor() {
     const [total, setTotal] = useState();
 
     const { toPDF, targetRef } = usePDF({filename: 'page.pdf'});
+    
+    /***  Carregar dados iniciais */
+    useEffect( () => {
+        axios.get(url)
+        .then( response => setData(response.data) );
+    }, [data]);
     
     /*** Calculando Total Mês */
     useEffect(() => {
@@ -57,12 +65,8 @@ export function Investidor() {
         });
         console.log(filtered3,)
     */
-
-    useEffect( () => {
-        axios.get(url)
-        .then( response => setData(response.data) );
-    }, [data]);
    
+    /** Inserindo dados */
     const Inserir = (e) => {
         e.preventDefault()
 
@@ -73,7 +77,7 @@ export function Investidor() {
             valor
         })
         .then( () => {
-                alert(nome + " Cadastrado com sucesso")
+                toast(nome + " Cadastrado com sucesso")
                 setNome(''), setDataInvest(''), setPercentual(''), setValor('')
             }
         )
@@ -110,7 +114,7 @@ export function Investidor() {
             valor
         })
         .then( () => {
-                alert(nome + " Atualizado com sucesso");
+                toast(nome + " Atualizado com sucesso");
                 
                 setNome(''), setDataInvest(''), setPercentual(''), setValor(''), setId('');
 
@@ -123,15 +127,32 @@ export function Investidor() {
         })
     }
 
+    /** Gerando Gráfico */
+    var options = {
+        chart: {
+          type: 'bar'
+        },
+        series: [
+          {
+            name: 'sales',
+            data: [30, 40, 35, 50, 49, 60, 70, 91, 125]
+          }
+        ],
+        xaxis: {
+          categories: [1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999]
+        }
+      }
+      var chart = new ApexCharts(document.querySelector('#chart'), options)
+      chart.render()
+
     /** View */
     return(
         <div className="container pt-3">
-        
-            
-                <button onClick={ () => toPDF() }>Download PDF</button>
-
-            
+             <ToastContainer />
+            {/* Gerador PDF  */}
+            <button className='btn btn-primary' onClick={ () => toPDF() }>Download PDF</button>
             <h1 className="mt-5 mb-5">Controle de Investidores</h1>
+            {/* Formulário */}
             <form className="mb-5">
                 <div className="row mb-2">
                         <div className="col">
@@ -165,16 +186,14 @@ export function Investidor() {
                         </div>
                 </div>
                 <input type="hidden" value={id} name="id" onChange={ e => setId(e.target.value)} />
-
-                    <button className={`btn btn-outline-primary ${classBtnInserir}`} onClick={Inserir}>Salvar</button>
-                    <button className={`btn btn-outline-warning ${classBtnAlterar}`} onClick={Alterar}>Editar</button>
-
-                    <p> {  } </p>
+                <button className={`btn btn-outline-primary ${classBtnInserir}`} onClick={Inserir}>Salvar</button>
+                <button className={`btn btn-outline-warning ${classBtnAlterar}`} onClick={Alterar}>Editar</button>
             </form>
 
             <div ref={targetRef}>
             <h1 className='text-center mb-5'>Listagem</h1>
-            <table className="table table-striped table-bordered">
+            {/* Tabela */}
+            <table className="table table-striped">
                 <thead>
                     <tr>
                         <th className="fild-50">ID</th>
@@ -187,7 +206,6 @@ export function Investidor() {
                         <th className="fild-100">Ações</th>
                     </tr>
                 </thead>
-            
                 <tbody>
                     { data.map((item) => (
                         <tr key={item.id}>
@@ -227,6 +245,7 @@ export function Investidor() {
                     }
                 </tbody>
             </table>
+            {/* Totalizador Table */}
             <div className="row text-end">
                 <div className="col-2">
                 <strong>Total: </strong><CountUp className='btn btn-primary'
@@ -240,6 +259,7 @@ export function Investidor() {
                 </div>
             </div>
             </div>
+            {/* Paginação */}
             <nav className="">
                 <ul className="pagination justify-content-center">
                     <li className="page-item"><a className="page-link" href="#">Anterior</a></li>

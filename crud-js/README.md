@@ -11,3 +11,7 @@
 npm i react-countup
 
 npm install --save react-to-pdf
+
+npm install --save react-toastify
+
+npm install apexcharts --save
