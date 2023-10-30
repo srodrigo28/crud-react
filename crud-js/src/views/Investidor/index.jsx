@@ -9,7 +9,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 export function Investidor() {
-    const url = "http://localhost:3001/investidor";
+    const url = "https://json-server-v.vercel.app/investidor";
     const [ data, setData] = useState([]); // Controle de carregamento e atualização da api
 
     const [ id, setId ]   = useState("")
@@ -38,39 +38,11 @@ export function Investidor() {
     }, [data, total]);
     
     console.log("Reduce total fora: " + total)
-      /********************************
-
-         // 👇️ filter with 1 condition
-         const filtered = data.filter(item => {
-           return item.valor === '1000';
-        });
-        console.log(filtered)
-
-        // 👇️ filter with 1 condition
-        const filtered1 = data.filter(item => {
-            return item.nome === 'Danillo';
-        });
-        console.log(filtered1)
-
-        // 👇️ filter with 1 condition
-        const filtered2 = data.filter( item => {
-            return item.valor > 1;
-        });
-        console.log(filtered2,)
-
-        // 👇️ filter with 1 condition
-        const filtered3 = data.filter( item => {
-            return item.valor > 1;
-           
-        });
-        console.log(filtered3,)
-    */
-   
-    /** Inserindo dados */
+    
     const Inserir = (e) => {
         e.preventDefault()
 
-        axios.post("http://localhost:3001/investidor/", {
+        axios.post(url, {
             nome,
             dataInvest,
             percentual,
@@ -90,7 +62,7 @@ export function Investidor() {
     const Remover =(id, nome) => {
         const res = window.confirm('Deseja realmente excluir? ' + nome)
         if(res === true){
-            axios.delete(`http://localhost:3001/investidor//${id}`)
+            axios.delete(`${url}${id}`)
             return false
         }
     }
@@ -107,7 +79,7 @@ export function Investidor() {
     function Alterar(e){
         e.preventDefault()
 
-        axios.put(`http://localhost:3001/investidor/${id}`, {
+        axios.put(`${url}/${id}`, {
             nome,
             dataInvest,
             percentual,
